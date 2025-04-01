@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading en Tiempo Real</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div class="container mx-auto p-6">
+
+        <h2 class="text-3xl font-bold text-center mb-6">📈 Trading en Tiempo Real</h2>
+
+        <div class="flex justify-center mb-4">
+            <input id="symbolInput" type="text" placeholder="Ingrese símbolo (Ej: AAPL)" 
+                class="px-4 py-2 rounded-lg text-black focus:outline-none">
+            <button onclick="updateSymbol()"
+                class="ml-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white">
+                Buscar
+            </button>
+        </div>
+
+        <div class="overflow-x-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+            <div class="w-[2500px] h-[500px]">
+                <canvas id="tradingChart"></canvas>
+            </div>
+        </div>
+
+        <div class="flex justify-center space-x-6 mt-6">
+            <button onclick="placeOrder('buy')" 
+                class="px-8 py-4 text-xl bg-green-600 hover:bg-green-700 rounded-lg shadow text-white font-bold">
+                Comprar Acción
+            </button>
+            <button onclick="placeOrder('sell')" 
+                class="px-8 py-4 text-xl bg-red-600 hover:bg-red-700 rounded-lg shadow text-white font-bold">
+                Vender Acción
+            </button>
+        </div>
+        
+
+    </div>
+
+    <script>
+        const ctx = document.getElementById('tradingChart').getContext('2d');
+        let currentSymbol = "AAPL";
+
+        const tradingChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Precio de Mercado',
+                    data: [],
+                    borderColor: '#4F46E5',
+                    borderWidth: 3,
+                    pointRadius: 2,
+                    fill: true,
+                    backgroundColor: "rgba(79, 70, 229, 0.1)"
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { 
+                        display: true, 
+                        ticks: { color: '#ffffff' } 
+                    },
+                    y: { 
+                        display: true, 
+                        ticks: { color: '#ffffff' } 
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: "#ffffff" }
+                    }
+                },
+                elements: {
+                    line: {
+                        tension: 0.3
+                    }
+                }
+            }
+        });
+
+
+        async function fetchMarketData(symbol) {
+            try {
+                const response = await fetch(`/api/market/data?symbol=${symbol}`);
+                const data = await response.json();
+
+                if (data.bars && data.bars[symbol]) {
+                    const prices = data.bars[symbol].map(item => item.c);
+                    const timestamps = data.bars[symbol].map(item => new Date(item.t * 1000).toLocaleTimeString());
+
+                    tradingChart.data.labels = timestamps;
+                    tradingChart.data.datasets[0].data = prices;
+                    tradingChart.update();
+                }
+            } catch (error) {
+                console.error("Error obteniendo datos del mercado:", error);
+            }
+        }
+
+        function updateSymbol() {
+            const input = document.getElementById("symbolInput").value.trim().toUpperCase();
+            if (input) {
+                currentSymbol = input;
+                fetchMarketData(currentSymbol);
+            }
+        }
+
+        function placeOrder(type) {
+            alert(`Orden ${type.toUpperCase()} enviada para ${currentSymbol}`);
+        }
+
+        fetchMarketData(currentSymbol);
+        setInterval(() => fetchMarketData(currentSymbol), 5000);
+    </script>
+
+</body>
+</html>

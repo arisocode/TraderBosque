@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Trading El Bosque</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('/images/trading4.jpg');">
+    <div class="bg-black bg-opacity-80 p-10 rounded-xl shadow-xl w-full max-w-3xl text-white">
+        <h1 class="text-4xl font-bold text-green-500 text-center mb-6">Registro de Usuario</h1>
+        
+        <form action="/process-register" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="name" class="block text-sm font-semibold">Nombre</label>
+                <input type="text" id="name" name="name" required class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-green-400">
+            </div>
+            <div>
+                <label for="lastName" class="block text-sm font-semibold">Apellido</label>
+                <input type="text" id="lastName" name="lastName" required class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-green-400">
+            </div>
+            <div>
+                <label for="email" class="block text-sm font-semibold">Correo Electrónico</label>
+                <input type="email" id="email" name="email" required class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-green-400">
+            </div>
+            <div>
+                <label for="username" class="block text-sm font-semibold">Nombre de Usuario</label>
+                <input type="text" id="username" name="username" required class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-green-400">
+            </div>
+            <div>
+                <label for="password" class="block text-sm font-semibold">Contraseña</label>
+                <input type="password" id="password" name="password" required class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-green-400">
+            </div>
+            <div>
+                <label for="confirm-password" class="block text-sm font-semibold">Confirmar Contraseña</label>
+                <input type="password" id="confirm-password" name="confirm-password" required class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-green-400">
+            </div>
+            <div class="col-span-1 md:col-span-2 flex flex-col items-center">
+                <button type="submit" class="w-full md:w-1/2 bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">Registrarse</button>
+                <p class="mt-4 text-sm text-gray-300">¿Ya tienes cuenta? <a href="/login" class="text-green-400 hover:underline">Inicia sesión aquí</a></p>
+            </div>
+        </form>
+
+        <!-- Gráfico decorativo -->
+        <div class="mt-8">
+            <canvas id="registerChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('registerChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Usuarios', 'Admins', 'Gerentes'],
+                datasets: [{
+                    label: 'Usuarios Registrados',
+                    data: [120, 45, 30],
+                    backgroundColor: ['#22c55e', '#3b82f6', '#facc15'],
+                    borderColor: ['#16a34a', '#2563eb', '#eab308'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

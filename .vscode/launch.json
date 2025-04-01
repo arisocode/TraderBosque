@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TraderbosqueApplication<traderbosque>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "co.edu.unbosque.traderbosque.TraderbosqueApplication",
+            "projectName": "traderbosque",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
