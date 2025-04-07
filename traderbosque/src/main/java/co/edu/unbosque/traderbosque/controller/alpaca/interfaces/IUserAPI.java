@@ -4,6 +4,11 @@ import co.edu.unbosque.traderbosque.model.DTO.alpaca.AlpacaAccountRequestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+<<<<<<< HEAD
+import java.util.List;
+
+=======
+>>>>>>> 2b883c9 (first commit)
 @RequestMapping("/api/usuario/v1")
 public interface IUserAPI {
 

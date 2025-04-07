@@ -1,7 +1,6 @@
 package co.edu.unbosque.traderbosque.model.DTO;
 import jakarta.validation.constraints.*;
 
-
 public class RegisterRequestDTO {
 
     @NotBlank
@@ -18,6 +17,4 @@ public class RegisterRequestDTO {
 
     @Size(min = 8)
     private String password;
-
-    // Getters y Setters
 }
