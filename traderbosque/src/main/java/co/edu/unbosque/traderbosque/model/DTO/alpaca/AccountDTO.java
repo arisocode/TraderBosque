@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlpacaAccountRequestDTO {
+public class AccountDTO {
 
 
     @JsonProperty("contact")
@@ -27,5 +27,18 @@ public class AlpacaAccountRequestDTO {
     @JsonProperty("agreements")
     private List<AgreementDTO> agreements;
 
+    @JsonProperty("documents")
+    private List<DocumentDTO> documents;
 
+    @JsonProperty("trusted_contact")
+    private TrustedContactDTO trustedContact;
+
+    @JsonProperty("enabled_assets")
+    private List<String> enabledAssets;
+
+    @JsonProperty("account_type")
+    private String accountType;
+
+    @JsonProperty("trading_type")
+    private String tradingType;
 }

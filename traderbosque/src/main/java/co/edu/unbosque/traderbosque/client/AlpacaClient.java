@@ -1,6 +1,8 @@
 package co.edu.unbosque.traderbosque.client;
 
-import co.edu.unbosque.traderbosque.model.DTO.alpaca.AlpacaAccountRequestDTO;
+import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
+import co.edu.unbosque.traderbosque.model.DTO.alpaca.AlpacaAccountResponseDTO;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -24,18 +26,28 @@ public class AlpacaClient {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<String> createAccount(AlpacaAccountRequestDTO request) {
+    public ResponseEntity<AlpacaAccountResponseDTO> createAccount(AccountDTO request) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("APCA-API-KEY-ID", apiKey);
-        headers.set("APCA-API-SECRET-KEY", secretKey);
+        headers.setBasicAuth(apiKey, secretKey);
 
-        HttpEntity<AlpacaAccountRequestDTO> entity = new HttpEntity<>(request, headers);
+        HttpEntity<AccountDTO> entity = new HttpEntity<>(request, headers);
 
-        return restTemplate.postForEntity(
+        return restTemplate.exchange(
                 baseUrl + "/v1/accounts",
+                HttpMethod.POST,
                 entity,
-                String.class
+                AlpacaAccountResponseDTO.class
         );
+    }
+
+
+
+    @PostConstruct
+    public void printCredentials() {
+        System.out.println("✅ AlpacaClient cargado con:");
+        System.out.println("🔑 API KEY: " + apiKey);
+        System.out.println("🔒 API SECRET: " + secretKey);
+        System.out.println("🌐 BASE URL: " + baseUrl);
     }
 }

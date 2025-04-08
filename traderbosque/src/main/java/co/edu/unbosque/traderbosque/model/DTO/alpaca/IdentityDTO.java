@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,10 +31,18 @@ public class IdentityDTO {
     @JsonProperty("tax_id_type")
     private String taxIdType;
 
-    @JsonProperty("citizenship")
+    @JsonProperty("country_of_citizenship")
     private String citizenship;
 
-    @JsonProperty("birth_country")
+    @JsonProperty("country_of_birth")
     private String birthCountry;
 
+    @JsonProperty("country_of_tax_residence")
+    private String taxResidence;
+
+    @JsonProperty("funding_source")
+    private List<String> fundingSource;
+
+    @JsonProperty("party_type")
+    private String partyType;
 }

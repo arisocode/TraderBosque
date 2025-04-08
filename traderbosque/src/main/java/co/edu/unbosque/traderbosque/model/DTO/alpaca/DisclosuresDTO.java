@@ -25,4 +25,9 @@ public class DisclosuresDTO {
     @JsonProperty("immediate_family_exposed")
     private boolean immediateFamilyExposed;
 
+    @JsonProperty("is_affiliated_exchange_or_iiroc")
+    private boolean isAffiliatedExchangeOrIiroc;
+
+    @JsonProperty("is_discretionary")
+    private Boolean isDiscretionary; // mejor con wrapper para permitir null
 }
