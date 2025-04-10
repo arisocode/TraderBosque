@@ -3,8 +3,10 @@ package co.edu.unbosque.traderbosque.controller.alpaca.UserModule;
 import co.edu.unbosque.traderbosque.controller.alpaca.interfaces.IUserAPI;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
 
+import co.edu.unbosque.traderbosque.model.entity.User;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.IService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,5 +47,19 @@ public class UserController implements IUserAPI {
     @Override
     public ResponseEntity<?> readAll() {
         return ResponseEntity.status(200).body(service.readAll());
+    }
+
+    /*
+    Validar credenciales
+    * */
+    @Override
+    public ResponseEntity<?> checkLogin(User user){
+        int status = service.validateCredentials(user.getUserName(), user.getPassword());
+
+        if (status == 0) {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+        } else {
+            return new ResponseEntity<>("Username or password incorrect", HttpStatus.UNAUTHORIZED);
+        }
     }
 }

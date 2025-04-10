@@ -108,6 +108,27 @@ public class UserService implements IService<AccountDTO, Integer> {
     public List<AccountDTO> readAll() {
         return List.of();
     }
+
+    public List<User> readAllUser() {
+        return repository.findAll();
+    }
+
+    /*
+    * Realiza la validacion de credenciales accediendo al repositorio del ususario.
+    * */
+    @Override
+    public int validateCredentials(String username, String password) {
+        for (User u : readAllUser()) {
+            if (u.getUserName().equals(username)) {
+
+                if (u.getPassword().equals(password)){
+                    return 0;
+                }
+            }
+        }
+        return 1;
+    }
+
 }
 
 

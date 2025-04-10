@@ -12,5 +12,6 @@ public interface IService <T,K>{
     void update(K id, T dto);
     void delete(K id);
     List<T> readAll();
+    int validateCredentials(String username, String password);
 
 }

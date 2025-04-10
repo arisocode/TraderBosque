@@ -1,6 +1,7 @@
 package co.edu.unbosque.traderbosque.controller.alpaca.interfaces;
 
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
+import co.edu.unbosque.traderbosque.model.entity.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,4 +22,10 @@ public interface IUserAPI {
 
     @GetMapping("/listar")
     ResponseEntity<?> readAll();
+
+    /*
+    * Para validar credenciales
+    * */
+    @PostMapping("/checklogin")
+    ResponseEntity<?> checkLogin(@RequestBody User user);
 }
