@@ -16,10 +16,11 @@ public class AgreementDTO {
     private String agreement;
 
     @JsonProperty("signed_at")
-    private String signedAt;
+    private String signedAt; // formato ISO 8601 (Z)
 
     @JsonProperty("ip_address")
     private String ipAddress;
 
-
+    @JsonProperty("revision")
+    private String revision;
 }

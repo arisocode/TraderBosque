@@ -15,25 +15,27 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ContactDTO {
 
-    @JsonProperty ("email_address")
+    @JsonProperty("email_address")
     private String emailAddress;
 
-    @JsonProperty ("phone_number")
+    @JsonProperty("phone_number")
     private String phoneNumber;
 
-    @JsonProperty ("street_address")
+    @JsonProperty("street_address")
     private List<String> streetAddress;
+
+    @JsonProperty("unit")
+    private String unit;
 
     @JsonProperty("city")
     private String city;
 
-    @JsonProperty ("state")
+    @JsonProperty("state")
     private String state;
 
-    @JsonProperty ("postal_code")
+    @JsonProperty("postal_code")
     private String postalCode;
 
-    @JsonProperty ("country")
-    private String country;
-
+    @JsonProperty("content_data")
+    private String contentData;
 }
