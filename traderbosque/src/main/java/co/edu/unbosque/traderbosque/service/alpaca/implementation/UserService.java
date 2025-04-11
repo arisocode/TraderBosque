@@ -2,6 +2,21 @@ package co.edu.unbosque.traderbosque.service.alpaca.implementation;
 
 
 
+import java.util.List;
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import co.edu.unbosque.traderbosque.exception.AlpacaSyncException;
 import co.edu.unbosque.traderbosque.exception.EmailAlreadyExistsException;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
@@ -9,16 +24,6 @@ import co.edu.unbosque.traderbosque.model.DTO.alpaca.AlpacaAccountResponseDTO;
 import co.edu.unbosque.traderbosque.model.entity.User;
 import co.edu.unbosque.traderbosque.repository.UserRepository;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.IService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService implements IService<AccountDTO, Integer> {
@@ -54,15 +59,29 @@ public class UserService implements IService<AccountDTO, Integer> {
         user.setName(dto.getIdentity().getGivenName());
         user.setEmail(dto.getContact().getEmailAddress());
         user.setPhone(dto.getContact().getPhoneNumber());
-        user.setUserName((dto.getIdentity().getGivenName() + "." + dto.getIdentity().getFamilyName()).toLowerCase());
-        user.setPassword("temporal123");
+        user.setUserName(dto.getUsername());
+        user.setPassword(dto.getPassword());
         user.setVerified(false);
+
+        AccountDTO dtoAlpaca = new AccountDTO();
+        dtoAlpaca.setContact(dto.getContact());
+        dtoAlpaca.setIdentity(dto.getIdentity());
+        dtoAlpaca.setDisclosures(dto.getDisclosures());
+        dtoAlpaca.setAgreements(dto.getAgreements());
+        dtoAlpaca.setDocuments(dto.getDocuments());
+        dtoAlpaca.setTrustedContact(dto.getTrustedContact());
+        dtoAlpaca.setEnabledAssets(dto.getEnabledAssets());
+        dtoAlpaca.setAccountType(dto.getAccountType());
+        dtoAlpaca.setTradingType(dto.getTradingType());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(apiKey, apiSecret);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<AccountDTO> request = new HttpEntity<>(dto, headers);
+        System.out.println("📤 Enviando JSON a Alpaca:");
+        System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(dtoAlpaca));
+
+        HttpEntity<AccountDTO> request = new HttpEntity<>(dtoAlpaca, headers);
 
         try {
             ResponseEntity<AlpacaAccountResponseDTO> response = restTemplate.exchange(

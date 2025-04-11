@@ -3,6 +3,7 @@ package co.edu.unbosque.traderbosque.model.DTO.alpaca;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,4 +42,8 @@ public class AccountDTO {
 
     @JsonProperty("trading_type")
     private String tradingType;
+
+    //Campos personalizados para guardar en la database
+    private String username;
+    private String password;
 }
