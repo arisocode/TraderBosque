@@ -24,7 +24,7 @@ public class NotificationService {
             smsService.sendSms(request.getPhoneNumber(), request.getMessage());
         }
         if (request.isWhatsappEnabled()) {
-            whatsappService.sendWhatsApp(request.getPhoneNumber(), request.getMessage());
+            whatsappService.sendWhatsAppMessage(request.getPhoneNumber(), request.getMessage());
         }
     }
 }
