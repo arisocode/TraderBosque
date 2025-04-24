@@ -1,6 +1,8 @@
 package co.edu.unbosque.traderbosque.service.alpaca.interfaces;
 
+import co.edu.unbosque.traderbosque.model.DTO.ChangePasswordRequestDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AlpacaAccountResponseDTO;
+import co.edu.unbosque.traderbosque.model.entity.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +14,7 @@ public interface IService <T,K>{
     void update(K id, T dto);
     void delete(K id);
     List<T> readAll();
+    User readAllUsers(int id);
     int validateCredentials(String username, String password);
-
+    int updatePasswordOnly(ChangePasswordRequestDTO user);
 }

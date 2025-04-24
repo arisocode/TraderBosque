@@ -4,6 +4,7 @@
 import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from "flowbite-react";
 import { BiBuoy } from "react-icons/bi";
 import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser, HiViewBoards } from "react-icons/hi";
+import { MdOutlineWorkspacePremium } from "react-icons/md";
 
 /*
 Sacado de FlowBite disponible en: https://flowbite-react.com/docs/components/sidebar
@@ -23,10 +24,10 @@ export function SideBarAcc() {
                         Inbox
                     </SidebarItem>
                     <SidebarItem href="../account/info" icon={HiUser}>
-                        Users
+                        Personal
                     </SidebarItem>
-                    <SidebarItem href="#" icon={HiShoppingBag}>
-                        Products
+                    <SidebarItem href="../account/products" icon={MdOutlineWorkspacePremium}>
+                        Premium
                     </SidebarItem>
                     <SidebarItem href="#" icon={HiArrowSmRight}>
                         Sign In

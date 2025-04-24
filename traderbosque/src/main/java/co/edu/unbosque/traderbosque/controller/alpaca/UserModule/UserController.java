@@ -1,6 +1,7 @@
 package co.edu.unbosque.traderbosque.controller.alpaca.UserModule;
 
 import co.edu.unbosque.traderbosque.controller.alpaca.interfaces.IUserAPI;
+import co.edu.unbosque.traderbosque.model.DTO.ChangePasswordRequestDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
 
 import co.edu.unbosque.traderbosque.model.entity.User;
@@ -39,6 +40,17 @@ public class UserController implements IUserAPI {
     }
 
     @Override
+    public ResponseEntity<?> updatePasswordOnly(ChangePasswordRequestDTO user) {
+
+        int status = service.updatePasswordOnly(user);
+        if (status == 0) {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+        } else {
+            return new ResponseEntity<>("Password incorrect", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @Override
     public ResponseEntity<?> delete(Integer id) {
         service.delete(id);
         return ResponseEntity.status(204).build();
@@ -47,6 +59,11 @@ public class UserController implements IUserAPI {
     @Override
     public ResponseEntity<?> readAll() {
         return ResponseEntity.status(200).body(service.readAll());
+    }
+
+    @Override
+    public ResponseEntity<?> readAllUsers(int id) {
+        return ResponseEntity.status(200).body(service.readAllUsers(id));
     }
 
     /*

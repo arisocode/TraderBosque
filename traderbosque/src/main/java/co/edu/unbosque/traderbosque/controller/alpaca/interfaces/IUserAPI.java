@@ -1,5 +1,6 @@
 package co.edu.unbosque.traderbosque.controller.alpaca.interfaces;
 
+import co.edu.unbosque.traderbosque.model.DTO.ChangePasswordRequestDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
 import co.edu.unbosque.traderbosque.model.entity.User;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,20 @@ public interface IUserAPI {
     @GetMapping("/{id}")
     ResponseEntity<?> read(@PathVariable Integer id);
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     ResponseEntity<?> update(@PathVariable Integer id, @RequestBody AccountDTO dto);
+
+    @PutMapping("/updatePassword")
+    ResponseEntity<?> updatePasswordOnly(@RequestBody ChangePasswordRequestDTO user);
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> delete(@PathVariable Integer id);
 
     @GetMapping("/listar")
     ResponseEntity<?> readAll();
+
+    @GetMapping("/usuarios/{id}")
+    ResponseEntity<?> readAllUsers(@PathVariable int id);
 
     /*
     * Para validar credenciales
