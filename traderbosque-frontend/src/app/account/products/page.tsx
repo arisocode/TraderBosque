@@ -1,10 +1,11 @@
 import Layout from "../../components/accLayout"
+import ProductDisplay from "../../components/subscription/page"
 
 export default function page() {
     return (
         <>
             <Layout>
-                Aqui va info de suscripcion
+                <ProductDisplay />
             </Layout>
         </>
     );
