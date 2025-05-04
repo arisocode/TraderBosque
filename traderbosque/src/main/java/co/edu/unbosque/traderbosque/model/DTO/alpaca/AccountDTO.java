@@ -41,4 +41,8 @@ public class AccountDTO {
 
     @JsonProperty("trading_type")
     private String tradingType;
+
+    //Campos personalizados para guardar en la database
+    private String username;
+    private String password;
 }

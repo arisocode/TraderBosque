@@ -1,15 +1,17 @@
 'use client'
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 
 //Este componente es para el cambio de contraseña
 export default function PasswordChange() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const username = localStorage.getItem("user")
     const [formData, setFormData] = useState({
-        username: 'wonderful.wright', //Esta harcoded el nombre de usuario la idea es conseguirlo a partir del almcenamiento local al iniciar sesión
+        username: username, //Esta harcoded el nombre de usuario la idea es conseguirlo a partir del almcenamiento local al iniciar sesión
         oldPassword: '',
         newPassword: ''
     });
+
 
     //Para tener presentes los cambios de los inputs
     const handleChange = (e: { target: { name: any; value: any; }; }) => {
@@ -30,7 +32,7 @@ export default function PasswordChange() {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/api/usuario/v1/updatePassword', {
+            const response = await fetch(`http://localhost:8080/api/usuario/v1/updatePassword`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",

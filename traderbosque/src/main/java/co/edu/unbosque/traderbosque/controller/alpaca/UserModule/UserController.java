@@ -5,6 +5,9 @@ import co.edu.unbosque.traderbosque.model.DTO.ChangePasswordRequestDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
 
 import co.edu.unbosque.traderbosque.model.entity.User;
+import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
+
+import co.edu.unbosque.traderbosque.model.entity.User;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.IService;
 
 import org.springframework.http.HttpStatus;
@@ -64,6 +67,14 @@ public class UserController implements IUserAPI {
     @Override
     public ResponseEntity<?> readAllUsers(int id) {
         return ResponseEntity.status(200).body(service.readAllUsers(id));
+    }
+
+    /*
+    * Leer con el nombre de usuario
+    * */
+    @Override
+    public ResponseEntity<?> readUserByName(String username) {
+        return ResponseEntity.status(200).body(service.readUsername(username));
     }
 
     /*

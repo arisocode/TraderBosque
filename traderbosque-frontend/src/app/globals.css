@@ -30,7 +30,7 @@ body {
 
 .layout {
   display: flex;
-  min-height: calc(100vh - 60px); 
+  min-height: calc(100vh - 60px);
   background-color: #1F2937;
 }
 
@@ -42,6 +42,6 @@ aside {
 .main-content {
   flex: 1;
   padding: 1rem;
-  
+
 }
 

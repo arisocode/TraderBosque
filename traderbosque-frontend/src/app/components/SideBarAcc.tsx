@@ -14,7 +14,7 @@ export function SideBarAcc() {
         <Sidebar aria-label="Sidebar with content separator example">
             <SidebarItems>
                 <SidebarItemGroup>
-                    <SidebarItem href="#" icon={HiChartPie}>
+                    <SidebarItem href="../home" icon={HiChartPie}>
                         Dashboard
                     </SidebarItem>
                     <SidebarItem href="#" icon={HiViewBoards}>

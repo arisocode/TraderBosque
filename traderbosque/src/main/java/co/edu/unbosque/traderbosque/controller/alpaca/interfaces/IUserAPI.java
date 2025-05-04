@@ -31,6 +31,12 @@ public interface IUserAPI {
     ResponseEntity<?> readAllUsers(@PathVariable int id);
 
     /*
+    * Para validar conforme al nombre de usuario
+    * */
+    @GetMapping("/usuarios/byusername/{username}")
+    ResponseEntity<?> readUserByName(@PathVariable String username);
+
+    /*
     * Para validar credenciales
     * */
     @PostMapping("/checklogin")

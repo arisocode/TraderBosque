@@ -11,7 +11,6 @@ import {
     NavbarToggle,
 } from "flowbite-react";
 
-
 //ATENCIÓN PODRIA UTILIZARSE ICONOS EN VEZ DE AVATAR
 /*
 Este componente es un NavBar proveniente de FlowBite que esta basado en tailwind CSS
@@ -20,9 +19,9 @@ Disponible en: https://flowbite-react.com/docs/components/navbar
 export function NavBar() {
     return (
         <Navbar fluid rounded>
-            <NavbarBrand href="https://flowbite-react.com">
-                <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite React</span>
+            <NavbarBrand href="../home">
+                <img src='/logo.svg' className="mr-3 h-6 sm:h-9" alt="Acciones ElBosque" />
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Acciones ElBosque</span>
             </NavbarBrand>
             <div className="flex md:order-2">
                 <Dropdown
