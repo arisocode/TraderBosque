@@ -44,5 +44,8 @@ public class User {
     @Column(name = "isVerified")
     private boolean isVerified;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sub_id", referencedColumnName = "subId")
+    private Subscription subscription;
 }
 

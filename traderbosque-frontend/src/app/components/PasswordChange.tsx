@@ -7,7 +7,7 @@ export default function PasswordChange() {
     const [error, setError] = useState('');
     const username = localStorage.getItem("user")
     const [formData, setFormData] = useState({
-        username: username, //Esta harcoded el nombre de usuario la idea es conseguirlo a partir del almcenamiento local al iniciar sesión
+        username: username,
         oldPassword: '',
         newPassword: ''
     });

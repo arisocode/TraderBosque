@@ -45,3 +45,19 @@ aside {
 
 }
 
+.phone-dropdown {
+  background-color: #1f2937; /* bg-gray-800 */
+  color: white;
+  border-radius: 0.5rem;
+  border: 1px solid #374151;
+  overflow: hidden;
+}
+
+.phone-dropdown .country:hover {
+  background-color: #374151; /* hover más claro */
+  cursor: pointer;
+}
+
+.phone-dropdown .country.highlight {
+  background-color: #4b5563; /* seleccionado */
+}

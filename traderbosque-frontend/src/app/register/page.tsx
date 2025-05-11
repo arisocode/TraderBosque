@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 //Pagina de registro dle usuario usando react con envio del formulario al backend
 export default function Page() {
@@ -96,6 +98,7 @@ export default function Page() {
 
       if (response.ok) {
         alert("Usuario registrado correctamente.");
+        window.location.href = "/login";
       } else {
         const error = await response.text();
         alert("Error al registrar usuario: " + error);
@@ -126,7 +129,42 @@ export default function Page() {
           </div>
           <div>
             <label className="block text-sm font-semibold">Teléfono</label>
-            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg" />
+            <PhoneInput
+              country={'us'}
+              value={phone}
+              onChange={phone => setPhone(phone)}
+              inputProps={{
+                name: 'phone',
+                required: true,
+                autoFocus: true
+              }}
+              containerStyle={{
+                width: '100%',
+                backgroundColor: '#1f2937',
+                borderRadius: '0.5rem',
+                padding: '0.5rem 1rem',
+              }}
+              inputStyle={{
+                backgroundColor: '#1f2937',
+                color: '#ffffff',
+                border: 'none',
+                outline: 'none',
+                width: '100%',
+              }}
+              buttonStyle={{
+                backgroundColor: '#1f2937',
+                border: 'none',
+              }}
+              searchStyle={{
+                backgroundColor: '#1f2937',
+              }}
+              dropdownStyle={{
+                backgroundColor: '#1f2937',
+                color: '#ffffff',
+                borderRadius: '0.5rem',
+                border: '1px solid #374151',
+              }}
+            />
           </div>
           <div>
             <label className="block text-sm font-semibold">Nombre de Usuario</label>

@@ -1,4 +1,4 @@
-package co.edu.unbosque.traderbosque.controller.SubscriptionModule.interfaces;
+package co.edu.unbosque.traderbosque.controller.paymentmodule.interfaces;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

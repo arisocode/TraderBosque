@@ -6,6 +6,7 @@ import co.edu.unbosque.traderbosque.exception.EmailAlreadyExistsException;
 import co.edu.unbosque.traderbosque.model.DTO.ChangePasswordRequestDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AlpacaAccountResponseDTO;
+import co.edu.unbosque.traderbosque.model.entity.Subscription;
 import co.edu.unbosque.traderbosque.model.entity.User;
 import co.edu.unbosque.traderbosque.repository.UserRepository;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.IService;

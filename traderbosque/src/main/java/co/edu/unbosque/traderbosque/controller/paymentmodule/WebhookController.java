@@ -1,4 +1,4 @@
-package co.edu.unbosque.traderbosque.controller.SubscriptionModule;
+package co.edu.unbosque.traderbosque.controller.paymentmodule;
 
 import co.edu.unbosque.traderbosque.service.stripe.StripeService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +24,7 @@ public class WebhookController {
 
     @PostMapping
     public ResponseEntity<String> handleWebhook(HttpServletRequest request, @RequestBody String payload) {
+        System.out.println("payload: " + payload);
         String sigHeader = request.getHeader("Stripe-Signature");
         stripeService.handleEvent(payload, sigHeader, endpointSecret);
         return ResponseEntity.ok("");

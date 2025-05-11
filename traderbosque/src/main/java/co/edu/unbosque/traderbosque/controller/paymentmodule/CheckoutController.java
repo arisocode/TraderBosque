@@ -1,6 +1,6 @@
-package co.edu.unbosque.traderbosque.controller.SubscriptionModule;
+package co.edu.unbosque.traderbosque.controller.paymentmodule;
 
-import co.edu.unbosque.traderbosque.controller.SubscriptionModule.interfaces.IStripeCheckoutAPI;
+import co.edu.unbosque.traderbosque.controller.paymentmodule.interfaces.IStripeCheckoutAPI;
 import co.edu.unbosque.traderbosque.service.stripe.StripeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +28,7 @@ public class CheckoutController implements IStripeCheckoutAPI {
     @Override
     public ResponseEntity<Map<String, String>> createPortalSession(@RequestParam String sessionId) {
         String portalUrl = stripeService.createPortalSession(sessionId);
+        System.out.println("Sessio id: " + sessionId);
         Map<String, String> responseData = new HashMap<>();
         responseData.put("url", portalUrl);
         return ResponseEntity.ok(responseData);
