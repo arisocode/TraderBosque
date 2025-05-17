@@ -1,16 +1,19 @@
 package co.edu.unbosque.traderbosque.service.alpaca.implementation;
 
-import co.edu.unbosque.traderbosque.client.AlpacaClient;
+
 import co.edu.unbosque.traderbosque.exception.AlpacaSyncException;
 import co.edu.unbosque.traderbosque.exception.EmailAlreadyExistsException;
 import co.edu.unbosque.traderbosque.model.DTO.ChangePasswordRequestDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AlpacaAccountResponseDTO;
-import co.edu.unbosque.traderbosque.model.entity.Subscription;
 import co.edu.unbosque.traderbosque.model.entity.User;
 import co.edu.unbosque.traderbosque.repository.UserRepository;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.IService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Customer;
+import com.stripe.param.CustomerCreateParams;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -18,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +61,7 @@ public class UserService implements IService<AccountDTO, Integer> {
         user.setUserName(dto.getUsername());
         user.setPassword(dto.getPassword());
         user.setVerified(false);
+        user.setSubscriptionPersonalized(null);
 
         AccountDTO dtoAlpaca = new AccountDTO();
         dtoAlpaca.setContact(dto.getContact());
@@ -92,7 +95,10 @@ public class UserService implements IService<AccountDTO, Integer> {
                 AlpacaAccountResponseDTO alpaca = response.getBody();
                 user.setAlpacaAccountId(alpaca.getId());
                 user.setAlpacaStatus(alpaca.getStatus());
+
+
                 repository.save(user);
+
                 return alpaca;
             } else {
                 throw new AlpacaSyncException("Error al crear cuenta en Alpaca: " + response.getStatusCode());
@@ -102,7 +108,6 @@ public class UserService implements IService<AccountDTO, Integer> {
             throw new AlpacaSyncException("Error al conectar con Alpaca: " + ex.getMessage());
         }
     }
-
 
 
     @Override

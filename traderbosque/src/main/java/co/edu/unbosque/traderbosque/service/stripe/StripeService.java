@@ -1,21 +1,39 @@
 package co.edu.unbosque.traderbosque.service.stripe;
 
+import co.edu.unbosque.traderbosque.model.SubscriptionDTO;
+import co.edu.unbosque.traderbosque.model.entity.SubscriptionPersonalized;
+import co.edu.unbosque.traderbosque.model.entity.User;
+import co.edu.unbosque.traderbosque.repository.SubscriptionRepository;
+import co.edu.unbosque.traderbosque.repository.UserRepository;
+import co.edu.unbosque.traderbosque.service.alpaca.implementation.UserService;
 import com.google.gson.JsonSyntaxException;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.*;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
+import com.stripe.param.CustomerCreateParams;
 import com.stripe.param.PriceListParams;
 import com.stripe.param.checkout.SessionCreateParams;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StripeService {
 
+    @Autowired
+    private SubscriptionRepository subscriptionReposiroty;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+
     final String DOMAIN = "http://localhost:3000/account/products";
 
-    public String createCheckoutSession(String lookupKey) {
+    public String createCheckoutSession(String lookupKey, String username) {
         try {
             PriceListParams priceParams = PriceListParams.builder()
                     .addLookupKeys(lookupKey)
@@ -29,7 +47,7 @@ public class StripeService {
                             .setQuantity(1L)
                             .build())
                     .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
-                    .setSuccessUrl(DOMAIN + "?success=true&session_id={CHECKOUT_SESSION_ID}")
+                    .setSuccessUrl(DOMAIN + "?success=true&session_id={CHECKOUT_SESSION_ID}&username=" + username)
                     .setCancelUrl(DOMAIN + "?canceled=true")
                     .build();
 
@@ -61,6 +79,7 @@ public class StripeService {
     public void handleEvent(String payload, String sigHeader, String endpointSecret) {
         try{
             Event event = null;
+
             try {
                 event = Webhook.constructEvent(payload, sigHeader, endpointSecret);
             } catch (JsonSyntaxException | SignatureVerificationException e) {
@@ -70,21 +89,25 @@ public class StripeService {
 
             EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
             StripeObject stripeObject = dataObjectDeserializer.getObject().orElse(null);
+            //User user = userService.readUsername(username);
 
             if (stripeObject == null) {
                 System.out.println("⚠️  No se pudo deserializar el objeto del evento.");
                 return;
             }
 
+
+
             switch (event.getType()) {
                 case "customer.subscription.created":
-                    handleSubscriptionCreated((Subscription) stripeObject);
+                    handleSubscriptionCreated((com.stripe.model.Subscription) stripeObject);
                     break;
                 case "customer.subscription.updated":
-                    handleSubscriptionUpdated((Subscription) stripeObject);
+                    com.stripe.model.Subscription subscription = (com.stripe.model.Subscription) stripeObject;
+                    handleSubscriptionUpdated((com.stripe.model.Subscription) stripeObject);
                     break;
                 case "customer.subscription.deleted":
-                    handleSubscriptionDeleted((Subscription) stripeObject);
+                    handleSubscriptionDeleted((com.stripe.model.Subscription) stripeObject);
                     break;
                 default:
                     System.out.println("Evento no manejado: " + event.getType());
@@ -93,17 +116,88 @@ public class StripeService {
             System.out.println(e.getMessage());
         }
     }
+    /*
+    * Consigue la información almacenada de la suscripcion
+    * */
+     public SubscriptionPersonalized getSubscriptionStatus(String username) {
+        List<SubscriptionPersonalized>  subs  = subscriptionReposiroty.findAll();
+        List<User> users = userRepository.findAll();
 
-    private void handleSubscriptionCreated(Subscription subscription) {
-        System.out.println("💡 Suscripción creada: " + subscription.getId());
-        // Aquí podrías guardar en BD, enviar correo, etc.
+        for(User user : users){
+            //Comprueba los usuarios
+            if(username.equals(user.getUserName())){
+                for(SubscriptionPersonalized sub : subs){
+                    //Comprueba los ids para retornar la suscripcion
+                    if(sub.getSubId().equals(user.getSubscriptionPersonalized().getSubId())){
+                        return sub;
+                    }
+                }
+            }
+        }
+
+        return null;
+     }
+
+
+
+    /*
+    * Crea una suscripcion
+    * */
+    public int handleSubscriptionCreated(SubscriptionDTO dto) {
+        try{
+            Optional<User> found = userRepository.findByUserName(dto.getUsername());
+            User user = found.orElse(null);
+
+            SubscriptionPersonalized subscription = new SubscriptionPersonalized();
+            subscription.setSubId(dto.getSubId());
+            subscription.setStatus(dto.getStatus());
+            subscription.setSubDateStart(dto.getSubDateStart());
+            subscription.setSubDateEnd(dto.getSubDateEnd());
+            subscription.setUser(user);
+
+            Customer stripeCustomer = Customer.create(CustomerCreateParams.builder()
+                    .setEmail(user.getEmail())
+                    .setName(user.getName())
+                    .build());
+
+            subscription.setStripeCustomerId(stripeCustomer.getId());
+            user.setSubscriptionPersonalized(subscription);
+            userRepository.save(user);
+            subscriptionReposiroty.save(subscription);
+            return 1;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+    /*
+    * Para crear en el handleEvent
+    * */
+    public void handleSubscriptionCreated(com.stripe.model.Subscription sub) {
+        //Logica de .created
+
+    }
+    /*
+    * Actualiza la información de la suscripción
+    * */
+    public void handleSubscriptionUpdated(com.stripe.model.Subscription subscription, User user) {
+        //SubscriptionPersonalized subStatus = status;
+        //subStatus.setStatus(subscription.getStatus());
+
+        //subscriptionReposiroty.save(subStatus);
     }
 
-    private void handleSubscriptionUpdated(Subscription subscription) {
-        System.out.println("🔁 Suscripción actualizada: " + subscription.getId());
+    /*
+    * Para el handleEvent
+    * */
+    public void handleSubscriptionUpdated(com.stripe.model.Subscription subscription) {
+        //SubscriptionPersonalized subStatus = status;
+        //subStatus.setStatus(subscription.getStatus());
+
+        //subscriptionReposiroty.save(subStatus);
     }
 
-    private void handleSubscriptionDeleted(Subscription subscription) {
+    public void handleSubscriptionDeleted(com.stripe.model.Subscription subscription) {
         System.out.println("❌ Suscripción eliminada: " + subscription.getId());
     }
 }

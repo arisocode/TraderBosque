@@ -1,6 +1,7 @@
 package co.edu.unbosque.traderbosque.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,6 +47,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sub_id", referencedColumnName = "subId")
-    private Subscription subscription;
+    @JsonManagedReference
+    private SubscriptionPersonalized subscriptionPersonalized;
 }
 

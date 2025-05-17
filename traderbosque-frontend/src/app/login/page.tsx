@@ -1,16 +1,21 @@
 "use client";
+import { ErrorToast } from "../components/Toast";
+import { useState, useEffect, useRef } from "react";
 
-import { useState } from "react";
-
-//Pagina de inicio de sesion
 export default function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showErrorToastKey, setShowErrorToastKey] = useState(0);
+  const hasShown = useRef(false);
 
-  const handleSubmit = async (e: React.FormEvent) => { //Manejamos el envio del formulario
+  useEffect(() => {
+    if (!hasShown.current) {
+      hasShown.current = true;
+    }
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    //Peticion al post y manejo de respuesta por pate del backend
     try {
       const response = await fetch(`http://localhost:8080/api/usuario/v1/checklogin`, {
         method: "POST",
@@ -24,11 +29,9 @@ export default function Page() {
         const data = await response.json();
         console.log("✅ Login exitoso", data);
         localStorage.setItem("user", username);
-        console.log(localStorage.getItem("user"));
         window.location.href = "/home";
       } else {
-        const error = await response.text();
-        alert("Usuario o contraseña incorrectos: " + error);
+        setShowErrorToastKey(prev => prev + 1);
       }
     } catch (error) {
       alert("Error en la conexión con el servidor");
@@ -38,6 +41,9 @@ export default function Page() {
 
   return (
     <div className="h-screen flex items-center justify-center bg-cover bg-center">
+      {showErrorToastKey == 1 && <ErrorToast key={showErrorToastKey} message="Usuario o contraseña incorrectos" />
+      }
+
       <div className="bg-white bg-opacity-10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl max-w-md w-full text-white text-center border border-gray-300 border-opacity-30">
         <h1 className="text-5xl font-extrabold text-green-400 drop-shadow-lg mb-4">Traderbosque</h1>
         <p className="text-gray-300 text-lg mb-6">Accede a tu cuenta para operar con confianza.</p>

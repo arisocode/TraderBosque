@@ -1,19 +1,29 @@
+"use client";
 import "./home.css";
 import Layout from "../components/accLayout";
+import { SuccessToast } from "../components/Toast";
+import { useEffect, useRef, useState } from "react";
 
-export default function page() {
+export default function Page() {
+    const hasShown = useRef(false);
+
+    useEffect(() => {
+        if (!hasShown.current) {
+            hasShown.current = true;
+        }
+    }, []);
+
     return (
         <Layout>
-            <div className="container">
+            <SuccessToast message="¡Bienvenido de vuelta!" />
 
+            <div className="container">
                 <div className="navbar">
                     <a href="/">Inicio</a>
                     <a href="/logout" className="logout">Cerrar Sesión</a>
                 </div>
 
-
                 <h1>Bienvenido a Traderbosque</h1>
-
 
                 <div className="menu-items">
                     <div className="menu-card">
@@ -35,7 +45,6 @@ export default function page() {
                         <a href="/trader/account">Ver Cuenta</a>
                     </div>
                 </div>
-
 
                 <a href="/logout" className="logout">Cerrar Sesión</a>
             </div>

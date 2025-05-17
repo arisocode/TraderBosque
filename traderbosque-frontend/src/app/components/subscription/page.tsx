@@ -1,6 +1,9 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { showToast } from 'nextjs-toast-notify';
+import { SuccessToast, ErrorToast } from '../Toast';
+
 
 const Logo: React.FC = () => (
     <svg
@@ -29,11 +32,17 @@ const Logo: React.FC = () => (
 
 const ProductDisplay: React.FC = () => {
     const handleCheckout = async () => {
+        const username = localStorage.getItem("user");
+        if (!username) {
+            console.error("No se encontró el nombre de usuario en localStorage");
+            return;
+        }
+
         try {
             const response = await fetch("http://localhost:8080/api/checkout/create-checkout-session", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams({ lookup_key: "Premium-73d8e1d" }),
+                body: new URLSearchParams({ lookup_key: "Premium-73d8e1d", username }),
             });
 
             const data = await response.json();
@@ -48,7 +57,7 @@ const ProductDisplay: React.FC = () => {
     };
 
     return (
-        <section >
+        <section>
             <div className="product">
                 <Logo />
                 <div className="description">
@@ -69,14 +78,18 @@ interface SuccessDisplayProps {
 
 const SuccessDisplay: React.FC<SuccessDisplayProps> = ({ sessionId }) => {
     const handlePortal = async () => {
+        const username = localStorage.getItem("user");
+        if (!username) {
+            console.error("No se encontró el nombre de usuario en localStorage");
+            return;
+        }
+
         const res = await fetch("http://localhost:8080/api/checkout/create-portal-session", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
-            body: new URLSearchParams({
-                session_id: sessionId
-            }),
+            body: new URLSearchParams({ lookup_key: "Premium-73d8e1d" }),
         });
 
         if (res.redirected) {
@@ -112,35 +125,99 @@ const Message: React.FC<MessageProps> = ({ message }) => (
     </section>
 );
 
+const ManageSub: React.FC = () => (
+    <SuccessToast message="Suscripción cargada" />
+);
+
 const App: React.FC = () => {
     const [message, setMessage] = useState<string>('');
     const [success, setSuccess] = useState<boolean>(false);
     const [sessionId, setSessionId] = useState<string>('');
+    const [subscriptionStatus, setSubscriptionStatus] = useState<string>('loading'); // loading, active, inactive, canceled
+
+
 
     useEffect(() => {
         const query = new URLSearchParams(window.location.search);
+        const username = localStorage.getItem("user");
+
+        const fetchStatus = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/api/checkout/get-sub-status?username=${username}`);
+                if (!res.ok) {
+                    setSubscriptionStatus('null');
+                } else {
+                    const data = await res.json(); // Se espera que sea { status: "active" }
+                    setSubscriptionStatus(data.status);
+                }
+            } catch (error) {
+                console.error("Error al obtener estado de suscripción:", error);
+                setSubscriptionStatus('error');
+            }
+        };
+
+        fetchStatus();
 
         if (query.get('success')) {
             setSuccess(true);
             const session = query.get('session_id');
             if (session) setSessionId(session);
+            fetch(`http://localhost:8080/api/checkout/session/${session}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    const subscriptionData = {
+                        username: username,
+                        subscriptionId: data.subscriptionId,
+                        status: data.status,
+                        startDate: data.startDate,
+                        endDate: data.endDate,
+                        subId: session
+                    };
+
+                    fetch("http://localhost:8080/api/checkout/subscription/save", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(subscriptionData),
+                    }).then(response => {
+                        if (response.ok) {
+                            console.log("Suscripción guardada con éxito");
+                        } else {
+                            console.error("Error al guardar la suscripción");
+                        }
+                    });
+                });
         }
 
         if (query.get('canceled')) {
             setSuccess(false);
-            setMessage(
-                "Order canceled -- continue to shop around and checkout when you're ready."
-            );
+            setMessage("Order canceled -- continue to shop around and checkout when you're ready.");
         }
     }, []);
 
-    if (!success && message === '') {
-        return <ProductDisplay />;
-    } else if (success && sessionId !== '') {
-        return <SuccessDisplay sessionId={sessionId} />;
-    } else {
-        return <Message message={message} />;
+    if (subscriptionStatus === 'null') {
+        return <ProductDisplay />
     }
+
+    if (subscriptionStatus === 'active') {
+        return (
+
+            <ManageSub />
+
+
+        );
+    }
+
+    if (subscriptionStatus === 'canceled') {
+        return <Message message="Your subscription has been canceled." />;
+    }
+
+    if (success && sessionId) {
+        return <SuccessDisplay sessionId={sessionId} />;
+    }
+
+    return <ProductDisplay />;
 };
 
 export default App;

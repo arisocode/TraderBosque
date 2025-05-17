@@ -1,9 +1,9 @@
 package co.edu.unbosque.traderbosque.controller.paymentmodule.interfaces;
 
+import co.edu.unbosque.traderbosque.model.SubscriptionDTO;
+import com.stripe.exception.StripeException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -11,8 +11,17 @@ import java.util.Map;
 public interface IStripeCheckoutAPI {
 
     @PostMapping("/create-checkout-session")
-    ResponseEntity<Map<String, String>> createCheckoutSession(@RequestParam String lookupKey);
+    ResponseEntity<Map<String, String>> createCheckoutSession(@RequestParam String lookupKey, @RequestAttribute  String username);
 
     @PostMapping("/create-portal-session")
     ResponseEntity<Map<String, String>> createPortalSession(@RequestParam String sessionId);
+
+    @GetMapping("/get-sub-status")
+    ResponseEntity<?> getSubStatus(@RequestParam String username);
+
+    @GetMapping("/session/{id}")
+    ResponseEntity<?> getSessionDetails(@PathVariable("id") String sessionId) throws StripeException;
+
+    @PostMapping("/subscription/save")
+    ResponseEntity<?> saveSubscription(@RequestBody SubscriptionDTO dto);
 }
