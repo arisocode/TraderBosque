@@ -4,7 +4,6 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
 }
 
 @theme inline {
@@ -16,7 +15,6 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
@@ -31,12 +29,10 @@ body {
 .layout {
   display: flex;
   min-height: calc(100vh - 60px);
-  background-color: #1F2937;
 }
 
 aside {
   width: 250px;
-  background-color: #1F2937;
 }
 
 .main-content {

@@ -22,7 +22,7 @@ export default function InvestmentDashboard() {
     setInvestments([...investments, { ...newInvestment, id: investments.length + 1 }]);
   };
 
-  const removeInvestment = (id) => {
+  const removeInvestment = (id: number) => {
     setInvestments(investments.filter((inv) => inv.id !== id));
   };
 

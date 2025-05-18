@@ -2,15 +2,14 @@
 
 import { useState } from "react";
 
-//Pagina de inicio de sesion
+// Página de inicio de sesión
 export default function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => { //Manejamos el envio del formulario
+  const handleSubmit = async (e: React.FormEvent) => { // Manejamos el envío del formulario
     e.preventDefault();
 
-    //Peticion al post y manejo de respuesta por pate del backend
     try {
       const response = await fetch(`http://localhost:8080/api/usuario/v1/checklogin`, {
         method: "POST",
@@ -37,14 +36,21 @@ export default function Page() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-cover bg-center">
-      <div className="bg-gray-800 text-white p-4 backdrop-blur-lg p-8 rounded-2xl shadow-2xl max-w-md w-full text-white text-center border border-gray-300 border-opacity-30">
-        <h1 className="text-5xl font-extrabold text-green-400 drop-shadow-lg mb-4">TraderBosque</h1>
-        <p className="text-gray-300 text-lg mb-6">Accede a tu cuenta para operar con confianza.</p>
+    <section className="relative h-screen flex">
+      <div className="w-1/2 flex flex-col items-center justify-center bg-[#1D5245] text-white p-12 shadow-xl">
+        <img src="/traderbosque.png" alt="TraderBosque Logo" className="mb-6 w-32" />
+        <h1 className="text-5xl font-extrabold drop-shadow-lg">TraderBosque</h1>
+        <p className="text-lg mt-3 max-w-xl text-gray-300 text-center">
+          Domina el mercado con herramientas avanzadas y análisis en tiempo real.
+        </p>
+      </div>
 
-        <form onSubmit={handleSubmit} className="text-left space-y-4">
+      <div className="w-1/2 flex flex-col items-center justify-center bg-white p-8 rounded-lg shadow-lg">
+        <h2 className="text-3xl font-bold text-green-600 mb-6 text-center">Accede a tu cuenta</h2>
+
+        <form onSubmit={handleSubmit} className="text-left space-y-4 w-full max-w-md">
           <div>
-            <label className="block text-sm font-semibold text-gray-300">Usuario</label>
+            <label className="block text-sm font-semibold text-gray-700">Usuario</label>
             <input
               type="text"
               id="username"
@@ -52,12 +58,12 @@ export default function Page() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full px-4 py-3 mt-1 bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm"
+              className="w-full px-4 py-3 mt-1 bg-gray-100 text-gray-900 border border-gray-300 rounded-lg focus:ring-green-400 shadow-sm"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-300">Contraseña</label>
+            <label className="block text-sm font-semibold text-gray-700">Contraseña</label>
             <input
               type="password"
               id="password"
@@ -65,19 +71,19 @@ export default function Page() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 mt-1 bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm"
+              className="w-full px-4 py-3 mt-1 bg-gray-100 text-gray-900 border border-gray-300 rounded-lg focus:ring-green-400 shadow-sm"
             />
           </div>
 
-          <button type="submit" className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition transform hover:scale-105 shadow-md">
+          <button type="submit" className="w-full px-6 py-3 bg-green-600 rounded-lg text-white font-semibold shadow-md transition hover:scale-105 text-center">
             Iniciar sesión
           </button>
         </form>
-
-        <div className="mt-4 text-gray-300 text-sm">
-          ¿No tienes cuenta? <a href="/register" className="text-green-400 hover:underline">Regístrate aquí</a>
+      
+        <div className="mt-4 text-gray-700 text-sm">
+          ¿No tienes cuenta? <a href="/register" className="text-[#CB8A59] hover:underline">Regístrate aquí</a>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

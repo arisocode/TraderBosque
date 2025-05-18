@@ -6,30 +6,31 @@ export default function page() {
         <Layout>
             <div className="container">
 
-                <h1 className="text-5xl font-extrabold text-green-400 drop-shadow-lg mb-4">Bienvenido a Traderbosque</h1>
+                <h1 className="text-5xl font-extrabold text-white drop-shadow-lg mb-4">Bienvenido a TraderBosque</h1>
         
                 <div className="menu-items">
                     <div className="menu-card">
                         <i className="fas fa-chart-line"></i>
+                        <a href="/market">
                         <h3>Ver Mercado</h3>
                         <p>Accede a las últimas tendencias del mercado en tiempo real.</p>
-                        <a href="/market">Ver Mercado</a>
+                        </a>
                     </div>
                     <div className="menu-card">
                         <i className="fas fa-briefcase"></i>
+                        <a href="/portfolio">
                         <h3>Mi Portafolio</h3>
                         <p>Visualiza y gestiona tu portafolio de inversiones.</p>
-                        <a href="/portfolio">Ver Portafolio</a>
+                        </a>
                     </div>
                     <div className="menu-card">
                         <i className="fas fa-user"></i>
+                        <a href="/trader/account">
                         <h3>Mi Cuenta</h3>
                         <p>Revisa tu información personal y financiera.</p>
-                        <a href="/trader/account">Ver Cuenta</a>
+                        </a>
                     </div>
                 </div>
-
-                <a href="/logout" className="logout">Cerrar Sesión</a>
             </div>
         </Layout>
     );

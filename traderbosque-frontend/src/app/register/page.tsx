@@ -107,47 +107,65 @@ export default function Page() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-cover bg-center">
-      <div className="bg-black bg-opacity-80 p-10 rounded-xl shadow-xl w-full max-w-3xl text-white">
-        <h1 className="text-4xl font-bold text-green-500 text-center mb-6">Registro de Usuario</h1>
+    <section className="relative h-screen flex">
+  {/* Sección Izquierda - Fondo verde con logo */}
+  <div className="w-1/2 flex flex-col items-center justify-center bg-[#1D5245] text-white p-12 shadow-xl">
+    <img src="/traderbosque.png" alt="TraderBosque Logo" className="mb-6 w-32" />
+    <h1 className="text-5xl font-extrabold drop-shadow-lg">TraderBosque</h1>
+    <p className="text-lg mt-3 max-w-xl text-gray-300 text-center">
+      Únete a nuestra comunidad y accede a herramientas avanzadas para mejorar tus operaciones.
+    </p>
+  </div>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-semibold">Nombre</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg" />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold">Apellido</label>
-            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg" />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold">Correo Electrónico</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg" />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold">Teléfono</label>
-            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg" />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold">Nombre de Usuario</label>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg" />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold">Contraseña</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg" />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold">Confirmar Contraseña</label>
-            <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg" />
-          </div>
-          <div className="col-span-1 md:col-span-2 flex flex-col items-center">
-            <button type="submit" className="w-full md:w-1/2 bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">Registrarse</button>
-            <p className="mt-4 text-sm text-gray-300">
-              ¿Ya tienes cuenta? <a href="/login" className="text-green-400 hover:underline">Inicia sesión aquí</a>
-            </p>
-          </div>
-        </form>
+  {/* Sección Derecha - Formulario de Registro */}
+  <div className="w-1/2 flex flex-col items-center justify-center bg-white p-8 rounded-lg shadow-lg">
+    <h2 className="text-3xl font-bold text-green-600 mb-6 text-center">Registro de Usuario</h2>
+
+    <form onSubmit={handleSubmit} className="text-left space-y-4 w-full max-w-md">
+      <div>
+        <label className="block text-sm font-semibold text-gray-700">Nombre</label>
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-4 py-3 bg-gray-100 text-gray-900 border border-gray-300 rounded-lg focus:ring-green-400 shadow-sm" />
       </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700">Apellido</label>
+        <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required className="w-full px-4 py-3 bg-gray-100 text-gray-900 border border-gray-300 rounded-lg focus:ring-green-400 shadow-sm" />
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700">Correo Electrónico</label>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full px-4 py-3 bg-gray-100 text-gray-900 border border-gray-300 rounded-lg focus:ring-green-400 shadow-sm" />
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700">Teléfono</label>
+        <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required className="w-full px-4 py-3 bg-gray-100 text-gray-900 border border-gray-300 rounded-lg focus:ring-green-400 shadow-sm" />
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700">Nombre de Usuario</label>
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required className="w-full px-4 py-3 bg-gray-100 text-gray-900 border border-gray-300 rounded-lg focus:ring-green-400 shadow-sm" />
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700">Contraseña</label>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full px-4 py-3 bg-gray-100 text-gray-900 border border-gray-300 rounded-lg focus:ring-green-400 shadow-sm" />
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700">Confirmar Contraseña</label>
+        <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="w-full px-4 py-3 bg-gray-100 text-gray-900 border border-gray-300 rounded-lg focus:ring-green-400 shadow-sm" />
+      </div>
+
+      <button type="submit" className="w-full px-6 py-3 bg-green-600 rounded-lg text-white font-semibold shadow-md transition hover:scale-105 text-center">
+        Registrarse
+      </button>
+    </form>
+
+    <div className="mt-4 text-gray-700 text-sm">
+      ¿Ya tienes cuenta? <a href="/login" className="text-[#CB8A59] hover:underline">Inicia sesión aquí</a>
     </div>
+  </div>
+</section>
   );
 }
