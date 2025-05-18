@@ -14,11 +14,11 @@ export function SideBarAcc() {
         <Sidebar aria-label="Sidebar with content separator example">
             <SidebarItems>
                 <SidebarItemGroup>
-                    <SidebarItem href="../home" icon={HiChartPie}>
-                        Dashboard
+                    <SidebarItem href="../home" icon={HiViewBoards}>
+                        Home
                     </SidebarItem>
-                    <SidebarItem href="#" icon={HiViewBoards}>
-                        Kanban
+                    <SidebarItem href="../portfolio" icon={HiChartPie}>
+                        Portfolio
                     </SidebarItem>
                     <SidebarItem href="#" icon={HiInbox}>
                         Inbox
@@ -29,11 +29,11 @@ export function SideBarAcc() {
                     <SidebarItem href="../account/products" icon={MdOutlineWorkspacePremium}>
                         Premium
                     </SidebarItem>
-                    <SidebarItem href="#" icon={HiArrowSmRight}>
-                        Sign In
+                    <SidebarItem href="../market" icon={HiTable}>
+                        Market
                     </SidebarItem>
-                    <SidebarItem href="#" icon={HiTable}>
-                        Sign Up
+                    <SidebarItem href="../login" icon={HiArrowSmRight}>
+                        Log out
                     </SidebarItem>
                 </SidebarItemGroup>
                 <SidebarItemGroup>

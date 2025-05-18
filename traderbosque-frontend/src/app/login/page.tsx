@@ -38,8 +38,8 @@ export default function Page() {
 
   return (
     <div className="h-screen flex items-center justify-center bg-cover bg-center">
-      <div className="bg-white bg-opacity-10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl max-w-md w-full text-white text-center border border-gray-300 border-opacity-30">
-        <h1 className="text-5xl font-extrabold text-green-400 drop-shadow-lg mb-4">Traderbosque</h1>
+      <div className="bg-gray-800 text-white p-4 backdrop-blur-lg p-8 rounded-2xl shadow-2xl max-w-md w-full text-white text-center border border-gray-300 border-opacity-30">
+        <h1 className="text-5xl font-extrabold text-green-400 drop-shadow-lg mb-4">TraderBosque</h1>
         <p className="text-gray-300 text-lg mb-6">Accede a tu cuenta para operar con confianza.</p>
 
         <form onSubmit={handleSubmit} className="text-left space-y-4">
