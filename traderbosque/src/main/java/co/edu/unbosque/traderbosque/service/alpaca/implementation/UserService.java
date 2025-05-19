@@ -33,8 +33,8 @@ public class UserService implements IService<AccountDTO, Integer> {
     private final ObjectMapper objectMapper;
 
 
-    private String apiKey = "CKYFYBH67LUIN6NP0VHU";
-    private String apiSecret = "IjVKirJjCO4VYBs7DLPVywq8A7awybu5hOuMyUyr";
+    private String apiKey = "CKSB24KB2FW08NFZKOM6";
+    private String apiSecret = "jiW0ruUk2V1XSplH3y8uN3TNQ09voefbu784NMr4";
 
     private final String baseUrl = "https://broker-api.sandbox.alpaca.markets/v1/accounts";
 
