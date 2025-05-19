@@ -24,4 +24,7 @@ public interface IStripeCheckoutAPI {
 
     @PostMapping("/subscription/save")
     ResponseEntity<?> saveSubscription(@RequestBody SubscriptionDTO dto);
+
+    @PostMapping("/create-wallet-session")
+    ResponseEntity<?> createWalletSession(@RequestParam Long amount, @RequestParam String username);
 }

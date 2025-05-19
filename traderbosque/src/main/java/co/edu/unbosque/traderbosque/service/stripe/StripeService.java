@@ -3,8 +3,10 @@ package co.edu.unbosque.traderbosque.service.stripe;
 import co.edu.unbosque.traderbosque.model.SubscriptionDTO;
 import co.edu.unbosque.traderbosque.model.entity.SubscriptionPersonalized;
 import co.edu.unbosque.traderbosque.model.entity.User;
+import co.edu.unbosque.traderbosque.model.entity.Wallet;
 import co.edu.unbosque.traderbosque.repository.SubscriptionRepository;
 import co.edu.unbosque.traderbosque.repository.UserRepository;
+import co.edu.unbosque.traderbosque.repository.WalletRepository;
 import co.edu.unbosque.traderbosque.service.alpaca.implementation.UserService;
 import com.google.gson.JsonSyntaxException;
 import com.stripe.exception.SignatureVerificationException;
@@ -26,6 +28,8 @@ public class StripeService {
 
     @Autowired
     private SubscriptionRepository subscriptionReposiroty;
+    @Autowired
+    private WalletRepository walletRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -108,6 +112,9 @@ public class StripeService {
                     break;
                 case "customer.subscription.deleted":
                     handleSubscriptionDeleted((com.stripe.model.Subscription) stripeObject);
+                    break;
+                case "checkout.session.completed":
+                    handleCheckoutSessionCompleted((Session) stripeObject);
                     break;
                 default:
                     System.out.println("Evento no manejado: " + event.getType());
@@ -199,5 +206,65 @@ public class StripeService {
 
     public void handleSubscriptionDeleted(com.stripe.model.Subscription subscription) {
         System.out.println("❌ Suscripción eliminada: " + subscription.getId());
+    }
+
+
+    /*
+    * Una fucnión que maneja la sesión de pago de la billetera de Stripe
+    * */
+    public String createWalletSession(Long amount, String username) {
+        try {
+            SessionCreateParams params = SessionCreateParams.builder()
+                    .setMode(SessionCreateParams.Mode.PAYMENT)
+                    .setSuccessUrl(DOMAIN + "/wallet/success?session_id={CHECKOUT_SESSION_ID}")
+                    .setCancelUrl(DOMAIN + "/wallet/cancel")
+                    .setClientReferenceId(username)
+                    .putMetadata("type", "wallet")
+                    .addLineItem(
+                            SessionCreateParams.LineItem.builder()
+                                    .setQuantity(1L)
+                                    .setPriceData(
+                                            SessionCreateParams.LineItem.PriceData.builder()
+                                                    .setCurrency("usd")
+                                                    .setUnitAmount(amount)
+                                                    .setProductData(
+                                                            SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                                    .setName("Recarga de billetera")
+                                                                    .build()
+                                                    )
+                                                    .build()
+                                    )
+                                    .build()
+                    )
+                    .build();
+
+            Session session = Session.create(params);
+            return session.getUrl();
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /*
+    * Funcionque maneja el WebHook del link de pago de la billetera
+    * */
+    public void handleCheckoutSessionCompleted(Session session) {
+        String username = session.getClientReferenceId();
+        Long amount = session.getAmountTotal();
+
+        Optional<User> optionalUser = userRepository.findByUserName(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Wallet wallet = user.getWallet();
+            if (wallet == null) {
+                wallet = new Wallet();
+                wallet.setUser(user);
+                wallet.setBalance(0L);
+            }
+            System.out.println("Pues bro, llego aca");
+            wallet.setBalance(wallet.getBalance() + amount);
+            walletRepository.save(wallet);
+        }
     }
 }

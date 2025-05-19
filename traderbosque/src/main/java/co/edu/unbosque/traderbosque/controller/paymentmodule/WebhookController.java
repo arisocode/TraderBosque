@@ -24,7 +24,7 @@ public class WebhookController {
     public ResponseEntity<String> handleWebhook(HttpServletRequest request, @RequestBody String payload) {
         System.out.println("payload: " + payload);
         String sigHeader = request.getHeader("Stripe-Signature");
-      stripeService.handleEvent(payload, sigHeader, endpointSecret);
+        stripeService.handleEvent(payload, sigHeader, endpointSecret);
         return ResponseEntity.ok("");
     }
 

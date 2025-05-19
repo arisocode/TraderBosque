@@ -91,4 +91,16 @@ public class CheckoutController implements IStripeCheckoutAPI {
 
         return ResponseEntity.status(200).body(subscription);
     }
+
+    @Override
+    public ResponseEntity<?> createWalletSession(@RequestParam Long amount, @RequestParam String username){
+        String sessionUrl = stripeService.createWalletSession(amount, username);
+        if(sessionUrl != null){
+            Map<String, String> response = new HashMap<>();
+            response.put("url", sessionUrl);
+            return ResponseEntity.ok(response);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
 }

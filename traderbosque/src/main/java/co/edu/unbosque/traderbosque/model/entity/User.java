@@ -49,5 +49,8 @@ public class User {
     @JoinColumn(name = "sub_id", referencedColumnName = "subId")
     @JsonManagedReference
     private SubscriptionPersonalized subscriptionPersonalized;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Wallet wallet;
 }
 
