@@ -36,3 +36,53 @@ export function TableComponent({ data }: props) {
         </div>
     );
 }
+
+type Quote = {
+    c: number;
+    h: number;  // Máximo
+    l: number;  // Mínimo
+    o: number;  // Apertura
+    pc: number; // Cierre pasado
+};
+
+type SymbolData = {
+    symbol: string;
+    quote: Quote;
+};
+
+type Props1 = {
+    data: SymbolData[];
+};
+
+export function TableSymbols({ data }: Props1) {
+    return (
+        <div className="overflow-x-auto">
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableHeadCell>Símbolo</TableHeadCell>
+                        <TableHeadCell>Actual</TableHeadCell>
+                        <TableHeadCell>Máximo</TableHeadCell>
+                        <TableHeadCell>Mínimo</TableHeadCell>
+                        <TableHeadCell>Apertura</TableHeadCell>
+                        <TableHeadCell>Cierre Pasado</TableHeadCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody className="divide-y">
+                    {data.map((item) => (
+                        <TableRow key={item.symbol} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                {item.symbol}
+                            </TableCell>
+                            <TableCell>{item.quote.c}</TableCell>
+                            <TableCell>{item.quote.h}</TableCell>
+                            <TableCell>{item.quote.l}</TableCell>
+                            <TableCell>{item.quote.o}</TableCell>
+                            <TableCell>{item.quote.pc}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
+    );
+}

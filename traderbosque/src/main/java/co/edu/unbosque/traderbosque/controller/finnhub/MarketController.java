@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/api/market")
@@ -24,7 +25,9 @@ public class MarketController {
     @GetMapping("/quotes")
     public ResponseEntity<List<QuoteWithSymbolDTO>> getQuotes(@RequestParam(required = false) List<String> symbols) {
         if (symbols == null || symbols.isEmpty()) {
-            symbols = List.of("AAPL", "MSFT", "GOOGL", "AMZN", "TSLA");
+            symbols = marketService.getActiveSymbols().stream()
+                    .limit(10)
+                    .collect(Collectors.toList());
         }
         List<QuoteWithSymbolDTO> quotes = marketService.getRealtimeQuotes(symbols);
         return ResponseEntity.ok(quotes);

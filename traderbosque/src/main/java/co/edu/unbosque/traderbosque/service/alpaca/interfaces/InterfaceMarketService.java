@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface InterfaceMarketService {
     List<QuoteWithSymbolDTO> getRealtimeQuotes(List<String> symbols);
+    List<String> getActiveSymbols();
 }
 
