@@ -1,28 +1,30 @@
 package co.edu.unbosque.traderbosque.service.alpaca.implementation;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import co.edu.unbosque.traderbosque.exception.AlpacaSyncException;
 import co.edu.unbosque.traderbosque.exception.EmailAlreadyExistsException;
+import co.edu.unbosque.traderbosque.exception.UnauthorizedException;
 import co.edu.unbosque.traderbosque.model.DTO.ChangePasswordRequestDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AlpacaAccountResponseDTO;
 import co.edu.unbosque.traderbosque.model.entity.User;
 import co.edu.unbosque.traderbosque.repository.UserRepository;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.IService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stripe.Stripe;
-import com.stripe.exception.StripeException;
-import com.stripe.model.Customer;
-import com.stripe.param.CustomerCreateParams;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
-import java.util.Optional;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class UserService implements IService<AccountDTO, Integer> {
@@ -153,8 +155,10 @@ public class UserService implements IService<AccountDTO, Integer> {
     * */
     public User readUsername(String username) {
         for (User u : repository.findAll()) {
-            if(u.getUserName().equals(username)) {
+            if (u.getUserName() != null){
+                if (u.getUserName().equals(username)) {
                 return u;
+                }
             }
         }
 
@@ -167,9 +171,8 @@ public class UserService implements IService<AccountDTO, Integer> {
     @Override
     public int validateCredentials(String username, String password) {
         for (User u : readAllUser()) {
-            if (u.getUserName().equals(username)) {
-
-                if (u.getPassword().equals(password)){
+            if (u.getUserName() != null && u.getPassword() != null) {
+                if (u.getUserName().equals(username) && u.getPassword().equals(password)) {
                     return 0;
                 }
             }
@@ -192,6 +195,16 @@ public class UserService implements IService<AccountDTO, Integer> {
             }
         }
         return 1;
+    }
+
+
+    @Override
+    public User validarUsuarioSesion(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new UnauthorizedException("Usuario no autenticado");
+        }
+        return user;
     }
 }
 

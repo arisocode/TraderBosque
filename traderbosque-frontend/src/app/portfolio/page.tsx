@@ -1,11 +1,11 @@
 "use client";
 
-import "./portfolio.css";
 import Layout from "../components/accLayout";
+import "./portfolio.css";
 
+import { BarElement, CategoryScale, Chart, LinearScale } from "chart.js";
 import { useState } from "react";
 import { Bar } from "react-chartjs-2";
-import { Chart, BarElement, CategoryScale, LinearScale } from "chart.js";
 
 Chart.register(BarElement, CategoryScale, LinearScale);
 

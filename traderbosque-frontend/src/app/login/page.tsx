@@ -1,6 +1,6 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 import { ErrorToast } from "../components/Toast";
-import { useState, useEffect, useRef } from "react";
 
 
 //Pagina de inicio de sesion
@@ -26,11 +26,12 @@ export default function Page() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ userName: username, password: password }),
+        credentials: "include",
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log("✅ Login exitoso", data);
+        console.log("Login exitoso", data);
         localStorage.setItem("user", username);
         window.location.href = "/home";
       } else {

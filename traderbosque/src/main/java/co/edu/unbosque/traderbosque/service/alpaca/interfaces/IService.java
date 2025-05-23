@@ -1,13 +1,12 @@
 package co.edu.unbosque.traderbosque.service.alpaca.interfaces;
 
-import co.edu.unbosque.traderbosque.model.DTO.alpaca.AlpacaAccountResponseDTO;
+import java.util.List;
+import java.util.Optional;
 
 import co.edu.unbosque.traderbosque.model.DTO.ChangePasswordRequestDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AlpacaAccountResponseDTO;
 import co.edu.unbosque.traderbosque.model.entity.User;
-
-import java.util.List;
-import java.util.Optional;
+import jakarta.servlet.http.HttpSession;
 
 public interface IService <T,K>{
 
@@ -20,4 +19,5 @@ public interface IService <T,K>{
     int validateCredentials(String username, String password);
     int updatePasswordOnly(ChangePasswordRequestDTO user);
     User readUsername(String username);
+    User validarUsuarioSesion(HttpSession session);
 }
