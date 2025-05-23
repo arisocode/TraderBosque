@@ -11,22 +11,22 @@ export function SideBarAcc() {
         <Sidebar aria-label="Sidebar with content separator example" className="bg-[#28a745] text-[#CB8A59]">
             <SidebarItems>
                 <SidebarItemGroup>
-                    <SidebarItem href="../home" icon={HiViewBoards} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
+                    <SidebarItem href="/home" icon={HiViewBoards} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
                         Inicio
                     </SidebarItem>
-                    <SidebarItem href="../portfolio" icon={HiChartPie} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
+                    <SidebarItem href="/portfolio" icon={HiChartPie} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
                         Portafolio
                     </SidebarItem>
                     <SidebarItem href="#" icon={HiInbox} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
                         Inbox
                     </SidebarItem>
-                    <SidebarItem href="../account/info" icon={HiUser} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
+                    <SidebarItem href="/account/info" icon={HiUser} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
                         Personal
                     </SidebarItem>
-                    <SidebarItem href="../account/products" icon={MdOutlineWorkspacePremium} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
+                    <SidebarItem href="/account/products" icon={MdOutlineWorkspacePremium} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
                         Premium
                     </SidebarItem>
-                    <SidebarItem href="../market" icon={HiTable} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
+                    <SidebarItem href="/market" icon={HiTable} className="hover:bg-[#CB8A59] hover:text-white rounded-md p-2">
                         Mercado
                     </SidebarItem>
                 </SidebarItemGroup>

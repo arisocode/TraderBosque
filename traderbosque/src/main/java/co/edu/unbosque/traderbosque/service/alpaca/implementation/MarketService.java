@@ -24,8 +24,15 @@ public class MarketService implements InterfaceMarketService {
     @Autowired
     private RestTemplate restTemplate;
 
+<<<<<<< HEAD
     public MarketService(InterfaceFinnhubClient finnhubClient) {
         this.finnhubClient = finnhubClient;
+=======
+    public MarketService(InterfaceFinnhubClient finnhubClient, AlpacaProperties alpacaProperties, RestTemplate restTemplate) {
+        this.finnhubClient = finnhubClient;
+        this.alpacaProperties = alpacaProperties;
+        this.restTemplate = restTemplate;
+>>>>>>> b4b7efa (Pruebas unitarias)
     }
 
     @Override

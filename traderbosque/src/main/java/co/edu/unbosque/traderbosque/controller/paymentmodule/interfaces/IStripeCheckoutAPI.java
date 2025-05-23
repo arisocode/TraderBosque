@@ -1,6 +1,7 @@
 package co.edu.unbosque.traderbosque.controller.paymentmodule.interfaces;
 
-import co.edu.unbosque.traderbosque.model.SubscriptionDTO;
+import co.edu.unbosque.traderbosque.model.DTO.SubscriptionDTO;
+import co.edu.unbosque.traderbosque.model.DTO.WalletRequestDTO;
 import com.stripe.exception.StripeException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +27,5 @@ public interface IStripeCheckoutAPI {
     ResponseEntity<?> saveSubscription(@RequestBody SubscriptionDTO dto);
 
     @PostMapping("/create-wallet-session")
-    ResponseEntity<?> createWalletSession(@RequestParam Long amount, @RequestParam String username);
+    ResponseEntity<?> createWalletSession(@RequestBody WalletRequestDTO request);
 }

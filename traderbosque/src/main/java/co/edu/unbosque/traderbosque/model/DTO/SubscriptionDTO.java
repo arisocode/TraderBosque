@@ -1,4 +1,4 @@
-package co.edu.unbosque.traderbosque.model;
+package co.edu.unbosque.traderbosque.model.DTO;
 
 import lombok.Getter;
 import lombok.Setter;

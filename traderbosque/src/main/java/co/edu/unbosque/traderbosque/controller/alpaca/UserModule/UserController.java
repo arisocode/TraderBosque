@@ -14,6 +14,11 @@ import co.edu.unbosque.traderbosque.model.entity.User;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.IService;
 import jakarta.servlet.http.HttpSession;
 
+<<<<<<< HEAD
+=======
+import java.util.Optional;
+
+>>>>>>> b4b7efa (Pruebas unitarias)
 @RestController
 public class UserController implements IUserAPI {
 
@@ -33,7 +38,12 @@ public class UserController implements IUserAPI {
 
     @Override
     public ResponseEntity<?> read(Integer id) {
-        return ResponseEntity.status(200).body(service.read(id));
+        Optional<AccountDTO> optDto = service.read(id);
+        if(optDto.isPresent()) {
+            return ResponseEntity.status(200).body(service.read(id));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @Override

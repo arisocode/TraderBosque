@@ -30,5 +30,4 @@ public class RegisterRequestDTO {
     private String postalCode;
     private String country;
 
-    // Getters y Setters
 }

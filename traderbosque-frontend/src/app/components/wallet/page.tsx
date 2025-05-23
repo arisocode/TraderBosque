@@ -1,30 +1,45 @@
-// components/WalletTopUpButton.tsx
-import { loadStripe } from '@stripe/stripe-js';
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+import { useState } from 'react';
 
 interface WalletTopUpButtonProps {
-    amount: number; // Monto en centavos
-    username: string;
+    amount: number;
 }
 
-const WalletTopUpButton: React.FC<WalletTopUpButtonProps> = ({ amount, username }) => {
-    const handleTopUp = async () => {
-        const response = await fetch('/api/stripe/create-wallet-session', {
+const WalletTopUpButton: React.FC<WalletTopUpButtonProps> = ({ amount }) => {
+    const [loading, setLoading] = useState(false)
+    const query = new URLSearchParams(window.location.search); //Por medio de un condicional manejar lo demas
+
+    const handleRecharge = async () => {
+        setLoading(true)
+
+        const username = localStorage.getItem('username')
+
+        const response = await fetch('http://localhost:8080/api/checkout/create-wallet-session', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ amount, username }),
-        });
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                amount: amount,
+                username: username
+            }),
+        })
 
-        const data = await response.json();
+        const data = await response.json()
 
-        const stripe = await stripePromise;
-        if (stripe) {
-            await stripe.redirectToCheckout({ sessionId: data.sessionId });
+        if (data && data.url) {
+            window.location.href = data.url
+        } else {
+            alert('Error al generar el enlace de pago')
         }
-    };
 
-    return <button onClick={handleTopUp}>Recargar ${amount / 100}</button>;
+        setLoading(false)
+    }
+
+    return (
+        <button onClick={handleRecharge} disabled={loading}>
+            {loading ? 'Redirigiendo...' : 'Recargar Saldo'}
+        </button>
+    );
 };
 
 export default WalletTopUpButton;

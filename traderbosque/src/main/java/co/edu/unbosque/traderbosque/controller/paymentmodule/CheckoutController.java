@@ -1,17 +1,14 @@
 package co.edu.unbosque.traderbosque.controller.paymentmodule;
 
 import co.edu.unbosque.traderbosque.controller.paymentmodule.interfaces.IStripeCheckoutAPI;
-import co.edu.unbosque.traderbosque.model.SubscriptionDTO;
+import co.edu.unbosque.traderbosque.model.DTO.SubscriptionDTO;
+import co.edu.unbosque.traderbosque.model.DTO.WalletRequestDTO;
 import co.edu.unbosque.traderbosque.model.entity.SubscriptionPersonalized;
-import co.edu.unbosque.traderbosque.model.entity.User;
-import co.edu.unbosque.traderbosque.repository.SubscriptionRepository;
-import co.edu.unbosque.traderbosque.service.alpaca.implementation.UserService;
 import co.edu.unbosque.traderbosque.service.stripe.StripeService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Subscription;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionRetrieveParams;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -82,7 +79,6 @@ public class CheckoutController implements IStripeCheckoutAPI {
     @Override
     public ResponseEntity<?> getSubStatus(@RequestParam String username) {
         SubscriptionPersonalized subscription = stripeService.getSubscriptionStatus(username);
-        System.out.println("Estado de la sub: " + subscription.getStatus() + " like para mas");
 
         if (subscription == null) {
             return ResponseEntity.status(404).body(Map.of("message", "Subscription not found"));
@@ -93,8 +89,8 @@ public class CheckoutController implements IStripeCheckoutAPI {
     }
 
     @Override
-    public ResponseEntity<?> createWalletSession(@RequestParam Long amount, @RequestParam String username){
-        String sessionUrl = stripeService.createWalletSession(amount, username);
+    public ResponseEntity<?> createWalletSession(@RequestBody WalletRequestDTO request){
+        String sessionUrl = stripeService.createWalletSession(request.getAmount(), request.getUsername());
         if(sessionUrl != null){
             Map<String, String> response = new HashMap<>();
             response.put("url", sessionUrl);

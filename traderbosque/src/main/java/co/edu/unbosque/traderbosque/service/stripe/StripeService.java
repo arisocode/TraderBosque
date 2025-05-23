@@ -1,6 +1,6 @@
 package co.edu.unbosque.traderbosque.service.stripe;
 
-import co.edu.unbosque.traderbosque.model.SubscriptionDTO;
+import co.edu.unbosque.traderbosque.model.DTO.SubscriptionDTO;
 import co.edu.unbosque.traderbosque.model.entity.SubscriptionPersonalized;
 import co.edu.unbosque.traderbosque.model.entity.User;
 import co.edu.unbosque.traderbosque.model.entity.Wallet;
