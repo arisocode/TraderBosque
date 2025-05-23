@@ -1,10 +1,20 @@
 package co.edu.unbosque.traderbosque.controller.alpaca.interfaces;
 
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import co.edu.unbosque.traderbosque.model.DTO.ChangePasswordRequestDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.AccountDTO;
 import co.edu.unbosque.traderbosque.model.entity.User;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/api/usuario/v1")
 public interface IUserAPI {
@@ -30,15 +40,12 @@ public interface IUserAPI {
     @GetMapping("/usuarios/{id}")
     ResponseEntity<?> readAllUsers(@PathVariable int id);
 
-    /*
-    * Para validar conforme al nombre de usuario
-    * */
     @GetMapping("/usuarios/byusername/{username}")
     ResponseEntity<?> readUserByName(@PathVariable String username);
 
-    /*
-    * Para validar credenciales
-    * */
     @PostMapping("/checklogin")
-    ResponseEntity<?> checkLogin(@RequestBody User user);
+    ResponseEntity<?> checkLogin(@RequestBody User user, HttpSession session);
+
+    @GetMapping("/accountId")
+    ResponseEntity<Map<String, String>> getAccountId(HttpSession session);
 }

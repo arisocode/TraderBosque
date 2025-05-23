@@ -1,6 +1,7 @@
 package co.edu.unbosque.traderbosque.model.DTO.alpaca;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,5 +39,8 @@ public class BankDTO {
 
     @JsonProperty("street_address")
     private String streetAddress;
+
+    @JsonProperty("account_type")
+    private String accountType; 
 
 }

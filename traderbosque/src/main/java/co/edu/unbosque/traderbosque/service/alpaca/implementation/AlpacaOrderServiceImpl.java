@@ -1,12 +1,16 @@
 package co.edu.unbosque.traderbosque.service.alpaca.implementation;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.OrderDTO;
 import co.edu.unbosque.traderbosque.model.DTO.alpaca.OrderResponseDTO;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.IAlpacaOrderService;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class AlpacaOrderServiceImpl implements IAlpacaOrderService {
@@ -28,6 +32,7 @@ public class AlpacaOrderServiceImpl implements IAlpacaOrderService {
         headers.setBasicAuth(apiKey, apiSecret);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
+        System.out.println("Enviando orden: " + dto);
         HttpEntity<OrderDTO> request = new HttpEntity<>(dto, headers);
 
         ResponseEntity<OrderResponseDTO> response = restTemplate.exchange(
