@@ -44,4 +44,21 @@ public class AlpacaOrderServiceImpl implements IAlpacaOrderService {
 
         return response.getBody();
     }
+
+    @Override
+    public OrderResponseDTO getOrderById(String alpacaAccountId, String orderId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth(apiKey, apiSecret);
+
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+
+        ResponseEntity<OrderResponseDTO> response = restTemplate.exchange(
+                baseUrl + "/trading/accounts/" + alpacaAccountId + "/orders/" + orderId,
+                HttpMethod.GET,
+                request,
+                OrderResponseDTO.class
+        );
+
+        return response.getBody();
+    }
 }

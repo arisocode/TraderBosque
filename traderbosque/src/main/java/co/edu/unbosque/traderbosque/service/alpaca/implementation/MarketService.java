@@ -1,19 +1,24 @@
 package co.edu.unbosque.traderbosque.service.alpaca.implementation;
 
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import co.edu.unbosque.traderbosque.config.AlpacaProperties;
 import co.edu.unbosque.traderbosque.model.Asset;
 import co.edu.unbosque.traderbosque.model.DTO.finnhub.QuoteWithSymbolDTO;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.InterfaceFinnhubClient;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.InterfaceMarketService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MarketService implements InterfaceMarketService {
@@ -24,15 +29,10 @@ public class MarketService implements InterfaceMarketService {
     @Autowired
     private RestTemplate restTemplate;
 
-<<<<<<< HEAD
-    public MarketService(InterfaceFinnhubClient finnhubClient) {
-        this.finnhubClient = finnhubClient;
-=======
     public MarketService(InterfaceFinnhubClient finnhubClient, AlpacaProperties alpacaProperties, RestTemplate restTemplate) {
         this.finnhubClient = finnhubClient;
         this.alpacaProperties = alpacaProperties;
         this.restTemplate = restTemplate;
->>>>>>> b4b7efa (Pruebas unitarias)
     }
 
     @Override

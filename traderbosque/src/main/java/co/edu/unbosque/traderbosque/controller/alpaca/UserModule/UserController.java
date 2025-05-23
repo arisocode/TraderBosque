@@ -2,6 +2,7 @@ package co.edu.unbosque.traderbosque.controller.alpaca.UserModule;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,6 @@ import co.edu.unbosque.traderbosque.model.entity.User;
 import co.edu.unbosque.traderbosque.service.alpaca.interfaces.IService;
 import jakarta.servlet.http.HttpSession;
 
-<<<<<<< HEAD
-=======
-import java.util.Optional;
-
->>>>>>> b4b7efa (Pruebas unitarias)
 @RestController
 public class UserController implements IUserAPI {
 

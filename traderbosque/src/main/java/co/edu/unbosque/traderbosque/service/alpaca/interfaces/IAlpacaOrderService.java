@@ -5,4 +5,5 @@ import co.edu.unbosque.traderbosque.model.DTO.alpaca.OrderResponseDTO;
 
 public interface IAlpacaOrderService {
     OrderResponseDTO createOrder(String alpacaAccountId, OrderDTO dto);
+    OrderResponseDTO getOrderById(String alpacaAccountId, String orderId);
 }

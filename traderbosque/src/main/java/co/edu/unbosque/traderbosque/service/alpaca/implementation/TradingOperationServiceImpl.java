@@ -65,9 +65,19 @@ public class TradingOperationServiceImpl implements ITradingOperationService {
         return responseDTO;
     }
 
-
     private void validarAccionesSuficientes(OrderDTO dto, User user) {
-    
+        // Implementar validación con portafolio del usuario.
+        // Por ejemplo, consultar en la base de datos cuántas acciones tiene de dto.getSymbol()
+        // y comparar con dto.getQty()
+
+        // Aquí simulo que no tienes ese dato aún:
+        // Puedes reemplazar esta parte cuando tengas la tabla/servicio que maneje el portafolio del usuario.
+        boolean tieneAccionesSuficientes = true;
+
+        if (!tieneAccionesSuficientes) {
+            throw new InsufficientFundsException("No tiene suficientes acciones para vender " +
+                    dto.getQty() + " de " + dto.getSymbol());
+        }
     }
 
     private User validarUsuarioSesion(HttpSession session) {
@@ -126,8 +136,6 @@ public class TradingOperationServiceImpl implements ITradingOperationService {
                     " pero solo tiene $" + balance);
         }
     }
-
-
 
     private void guardarOrden(OrderResponseDTO responseDTO, User user) {
         Order entity = new Order();
